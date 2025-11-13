@@ -1,0 +1,57 @@
+// ❗ Demo only — do NOT ship real keys in frontend code.
+const API_KEY = 'AIzaSyCszFEH9RPUHXR9D9_3ZbZjzGPKNKPj2oM';
+const API_BASE = 'https://generativelanguage.googleapis.com/v1';   // ← v1 (not v1beta)
+const MODEL    = 'gemini-2.5-flash-lite';                               // ← current model id
+
+// --- helper: file -> base64 (without the "data:...;base64," prefix)
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => {
+      const base64 = String(r.result).split(',')[1]; // strip header
+      resolve(base64);
+    };
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+// --- ask Gemini with image + text
+async function askGeminiWithImage(file, textPrompt) {
+  const base64 = await fileToBase64(file);
+  const url = `${API_BASE}/models/${MODEL}:generateContent?key=${API_KEY}`;
+  const body = {
+    contents: [{
+      role: 'user',
+      parts: [
+        { text: textPrompt || 'Describe the image.' },
+        { inline_data: { mime_type: file.type || 'image/png', data: base64 } }
+      ]
+    }]
+  };
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}: ${await res.text()}`);
+  const data = await res.json();
+  return data.candidates?.[0]?.content?.parts?.map(p => p.text).join('') || '(no answer)';
+}
+
+// --- wire up the button
+document.getElementById('sendImg').addEventListener('click', async () => {
+  const f = document.getElementById('img').files?.[0];
+  const p = document.getElementById('imgPrompt').value.trim();
+  const out = document.getElementById('imgOut');
+
+  if (!f) { out.textContent = 'Please choose an image.'; return; }
+  out.textContent = '… sending';
+  try {
+    out.textContent = await askGeminiWithImage(f, p);
+  } catch (e) {
+    out.textContent = 'Error: ' + e.message;
+  }
+});
