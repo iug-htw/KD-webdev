@@ -1,5 +1,5 @@
 // ❗ Demo only — do NOT ship real keys in frontend code.
-const API_KEY = 'AIzaSyCszFEH9RPUHXR9D9_3ZbZjzGPKNKPj2oM';
+const API_KEY = 'API_KEY GOES_HERE';
 const API_BASE = 'https://generativelanguage.googleapis.com/v1';   // ← v1 (not v1beta)
 const MODEL    = 'gemini-2.5-flash';                               // ← current model id
 
