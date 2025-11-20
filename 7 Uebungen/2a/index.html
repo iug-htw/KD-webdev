@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="de">
+<meta charset="utf-8">
+<title>Gemini Mini Demo</title>
+<style>
+  body { font-family: system-ui, Arial, sans-serif; margin: 2rem; line-height: 1.4 }
+  textarea { width: 100%; height: 8rem }
+  pre { white-space: pre-wrap; background:#f6f6f6; padding:.75rem; border:1px solid #ddd }
+</style>
+
+<h1>Gemini (Text) – Mini</h1>
+
+<h2>Image description</h2>
+<input type="file" id="img" accept="image/*">
+
+<!-- NEU: Bildvorschau -->
+<div id="previewWrapper" style="margin-top:1rem;">
+  <strong>Preview:</strong><br>
+  <img id="imgPreview" style="max-width:300px;" alt="Image preview">
+</div>
+
+<input id="imgPrompt" value="Describe the image factually and fairly. If unsure, say 'unknown'.">
+<button id="sendImg">Send image</button>
+<pre id="imgOut">Image response will appear here …</pre>
+
+<script src="app.js"></script>
+</html>

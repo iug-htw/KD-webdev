@@ -15,6 +15,28 @@ function fileToBase64(file) {
     r.readAsDataURL(file);
   });
 }
+//-new: image preview
+const imgInput       = document.getElementById('img');
+const previewWrapper = document.getElementById('previewWrapper');
+const previewImg     = document.getElementById('imgPreview');
+
+imgInput.addEventListener('change', async () => {
+  const file = imgInput.files?.[0];
+  if (!file) {
+    previewWrapper.style.display = 'none';
+    previewImg.removeAttribute('src');
+    return;
+  }
+
+  try {
+    const base64 = await fileToBase64(file);            // dein Helper
+    previewImg.src = `data:${file.type};base64,${base64}`;
+    previewWrapper.style.display = 'block';
+  } catch (e) {
+    console.error('Preview error:', e);
+  }
+});
+
 
 // --- ask Gemini with image + text
 async function askGeminiWithImage(file, textPrompt) {
@@ -46,9 +68,10 @@ document.getElementById('sendImg').addEventListener('click', async () => {
   const f = document.getElementById('img').files?.[0];
   const p = document.getElementById('imgPrompt').value.trim();
   const out = document.getElementById('imgOut');
-
-  if (!f) { out.textContent = 'Please choose an image.'; return; }
-  out.textContent = '… sending';
+  
+  if (!f) { out.textContent = 'Please choose an image.'; 
+     return; }
+    out.textContent = '… sending';
   try {
     out.textContent = await askGeminiWithImage(f, p);
   } catch (e) {

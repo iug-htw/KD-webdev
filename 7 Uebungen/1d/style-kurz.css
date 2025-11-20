@@ -1,0 +1,107 @@
+/* Grundlayout */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif; /* statt HTW-Spezialfont */
+  background: #AFAFAF;
+}
+
+/* Hauptbereich */
+main {
+  min-height: 450px;
+  background-color: #fff;
+  padding: 0 0.5em 0.5em;    /* wie im Original */
+  margin-bottom: 1em;
+  font-size: 1em;
+  box-shadow: 2px 3px 27px -7px rgba(0,0,0,0.22);
+  width: 100%;
+  float: left;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+
+/* Seitencontainer */
+#page {
+  max-width: 90em;
+  margin: 0 auto;
+  background: #EBEBEB;
+  border-top: 1px solid #e2e2e2;
+}
+
+#page .inner {
+  border-top: 2px solid #e8e8e8;
+  padding: 1em 4%;
+}
+
+/* Überschrift + Text */
+.csc-header h1,
+h1 {
+  font-weight: 600;
+  font-size: 1.7em;
+  margin: 0 0 0.5em;
+}
+
+.csc-header p,
+p {
+  max-width: 33em;
+  margin: 0 0 1em;
+}
+
+/* Bilder / Figuren */
+img {
+  max-width: 100%;
+  height: auto;
+  border: 0;
+  display: block;
+}
+
+figure {
+  margin: 0 0 0.5em;
+}
+
+figcaption {
+  font-size: 0.9em;
+}
+
+/* News-Grid */
+.news {
+  margin-top: 1.5em;
+}
+
+.newsgrid.gridview {
+  overflow: hidden;
+}
+
+.newsgrid.gridview > article {
+  margin-bottom: 2em;
+}
+
+/* ab kleineren Screens zwei Spalten */
+@media (min-width: 30em) {
+  .newsgrid.gridview > article {
+    width: 46%;
+    float: left;
+    margin-right: 4%;
+  }
+
+  .newsgrid.gridview > article:nth-child(2n) {
+    margin-right: 0;
+  }
+}
+
+/* ab größeren Screens drei Spalten */
+@media (min-width: 65em) {
+  .newsgrid.gridview > article {
+    width: 30%;
+    margin-right: 5%;
+  }
+
+  .newsgrid.gridview > article:nth-child(3n) {
+    margin-right: 0;
+  }
+}
