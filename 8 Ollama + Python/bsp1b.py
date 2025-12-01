@@ -28,6 +28,6 @@ def ask_ollama(prompt: str) -> str:
 
 
 if __name__ == "__main__":
-    prompt = "Say hello from the H100 server in one sentence."
+    prompt = input("Was willst Du die KI fragen? ")
     answer = ask_ollama(prompt)
     print("Model answer:\n", answer)

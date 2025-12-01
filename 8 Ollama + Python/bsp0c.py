@@ -2,14 +2,26 @@ import json
 
 def main():
     # 1. Python-Datenstruktur (Dictionary mit Liste)
+    eineListe = ["as","asd","adsf"]
     person = {
         "name": "Anna",
         "age": 11,
         "hobbies": ["Lesen", "Minecraft", "Schwimmen"]
     }
+    persons = [
+        person,
+        {
+            "name": "Berta",
+            "age": 12,
+            "hobbies": ["Fußball", "Tanzen"]
+        }   
+            ]
 
     print("Python-Objekt Person:")
     print(person)
+    print("Element aus der Liste persons:" )
+    print(persons[0])
+    print(persons[1])
 
     # 2. In JSON-Text umwandeln (serialisieren)
     person_json = json.dumps(person, indent=2)
