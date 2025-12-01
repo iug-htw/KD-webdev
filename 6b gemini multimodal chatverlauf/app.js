@@ -1,5 +1,5 @@
 // ❗ Demo only — do NOT ship real keys in frontend code.
-const API_KEY = 'API key';
+const API_KEY = 'api-key-here';  // ← REPLACE with your API key
 const API_BASE = 'https://generativelanguage.googleapis.com/v1';   // ← v1 (not v1beta)
 const MODEL    = 'gemini-2.5-flash-lite';                               // ← current model id
 // neu Chat History
@@ -33,6 +33,7 @@ function fileToBase64(file) {
 async function askGeminiWithImage(file, textPrompt) {
   const base64 = await fileToBase64(file);
   const url = `${API_BASE}/models/${MODEL}:generateContent?key=${API_KEY}`;
+
 
   // Prompt inkl. Verlauf bauen
   const finalPrompt = buildPromptWithHistory(textPrompt);
@@ -71,7 +72,7 @@ async function askGeminiWithImage(file, textPrompt) {
   });
   console.log(finalPrompt); // optional
 
-  return answer;
+  return {answer, finalPrompt};
 }
 
 
@@ -83,10 +84,17 @@ document.getElementById('sendImg').addEventListener('click', async () => {
   const p = document.getElementById('imgPrompt').value.trim();
   const out = document.getElementById('imgOut');
 
+
   if (!f) { out.textContent = 'Please choose an image.'; return; }
   out.textContent = '… sending';
-  try {
-    out.textContent = await askGeminiWithImage(f, p);
+   try {
+    const { answer, finalPrompt } = await askGeminiWithImage(f, p);
+
+    // Hier zeigst du nur den Prompt an
+    out.textContent = finalPrompt+'\n'+answer;
+
+    // Optional: Falls du irgendwann auch die Antwort brauchst, ist sie in `answer`
+    console.log('Antwort erhalten von Gemini:', answer);
   } catch (e) {
     out.textContent = 'Error: ' + e.message;
   }
